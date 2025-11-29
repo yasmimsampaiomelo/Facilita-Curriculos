@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currículo de {{ nome }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Open Sans", sans-serif;
+        background-color: #ffffff;
+        margin: 0;
+        padding: 40px;
+        color: #333;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      h1 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #10354f;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #10354f;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #66c1c1;
+        padding-bottom: 5px;
+        text-transform: uppercase;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+
+      .layout {
+        display: flex;
+        gap: 40px;
+      }
+
+      .coluna-esquerda {
+        width: 60%;
+      }
+
+      .coluna-direita {
+        width: 40%;
+      }
+
+      strong {
+        font-weight: 700;
+        color: #10354f;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      li {
+        margin-bottom: 5px;
+      }
+
+      #pdf-btn {
+        margin-bottom: 20px;
+        padding: 10px 22px;
+        background: #0a2e68;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        display: block;
+        max-width: 220px;
+      }
+
+      #pdf-btn:hover {
+        background-color: #083c9e;
+      }
+
+      @media print {
+        #pdf-btn {
+          display: none;
+        }
+        body {
+          margin: 0;
+          padding: 0;
+          background: white;
+          max-width: 100%;
+          font-size: 12pt;
+          line-height: 1.4;
+        }
+        .curriculo-container,
+        .layout,
+        .coluna-esquerda,
+        .coluna-direita {
+          page-break-inside: avoid;
+        }
+        .layout {
+          flex-direction: column;
+          gap: 10px;
+        }
+        .coluna-esquerda,
+        .coluna-direita {
+          width: 100% !important;
+          padding: 0;
+        }
+        @page {
+          size: A4;
+          margin: 15mm 20mm;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button id="pdf-btn" onclick="baixarPDF()">
+      ⬇️ Salvar Currículo em PDF
+    </button>
+
+    <div class="curriculo-container">
+      <h1>{{ nome }}</h1>
+
+      <div class="layout">
+        <div class="coluna-esquerda">
+          <h2>Resumo Profissional</h2>
+          <p>{{ resumo | safe }}</p>
+
+          <h2>Formação Acadêmica</h2>
+          <p>{{ formacao | safe }}</p>
+
+          <h2>Experiência Profissional</h2>
+          <p>{{ experiencia | safe }}</p>
+
+          {% if idiomas %}
+          <h2>Idiomas</h2>
+          <p>{{ idiomas | safe }}</p>
+          {% endif %}
+        </div>
+
+        <div class="coluna-direita">
+          <p><strong>Email:</strong> {{ email }}</p>
+          <p><strong>Telefone:</strong> {{ telefone }}</p>
+
+          {% if linkedin %}
+          <p>
+            <strong>LinkedIn:</strong>
+            <a href="{{ linkedin }}" target="_blank">{{ linkedin }}</a>
+          </p>
+          {% endif %} {% if portfolio %}
+          <p>
+            <strong>Portfólio:</strong>
+            <a href="{{ portfolio }}" target="_blank">{{ portfolio }}</a>
+          </p>
+          {% endif %}
+
+          <h2>Habilidades</h2>
+          <p>{{ habilidades | safe }}</p>
+
+          <h2>Nome completo</h2>
+          <p>{{ nome_completo | safe }}</p>
+
+          <h2>Data de Nascimento</h2>
+          <p>{{ data_nasc | safe }}</p>
+
+          <h2>Naturalidade</h2>
+          <p>{{ naturalidade | safe }}</p>
+
+          <h2>Disponibilidade</h2>
+          <p>{{ disp | safe }}</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+      function baixarPDF() {
+        const element = document.querySelector(".curriculo-container");
+        const opt = {
+          margin: 0.4, // margem em polegadas (cerca de 10mm)
+          filename: "curriculo_{{ nome }}.pdf",
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+          pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+        };
+        html2pdf().set(opt).from(element).save();
+      }
+    </script>
+  </body>
+</html>

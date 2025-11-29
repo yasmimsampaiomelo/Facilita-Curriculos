@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Facilita Currículo</title>
+    <!-- Fonte moderna -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Poppins", Arial, sans-serif;
+        background: linear-gradient(
+          90deg,
+          #f8f5f4,
+          #d0e2f5,
+          #a6c8f0,
+          #7aaeea,
+          #4d94e5,
+          #1f78d1,
+          #0f4fa3,
+          #0a2e68
+        );
+        background-size: 600% 100%;
+        animation: moverGradiente 15s linear infinite;
+        color: white;
+      }
+
+      @keyframes moverGradiente {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: #f8f5f4;
+        backdrop-filter: saturate(180%) blur(10px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 40px;
+      }
+
+      header .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+      }
+
+      header .logo img {
+        height: 40px;
+        width: 40px;
+      }
+
+      header .logo span {
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        color: #026ab0;
+      }
+
+      nav a {
+        color: #026ab0;
+        text-decoration: none;
+        margin-left: 25px;
+        font-weight: 600;
+        font-size: 16px;
+        transition: color 0.3s ease;
+      }
+
+      nav a:hover {
+        color: #00aaff;
+      }
+
+      /* Ajustar conteúdo para não ficar atrás do menu */
+      .hero {
+        padding-top: 90px;
+        height: calc(100vh - 90px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding-left: 20px;
+        padding-right: 20px;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+      }
+
+      .hero p {
+        font-size: 1.125rem;
+        max-width: 600px;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      .botoes {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .botoes a {
+        padding: 15px 35px;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 30px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0, 153, 255, 0.5);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .botoes a.btn-azul {
+        background-color: #0099ff;
+        color: white;
+        border: none;
+      }
+
+      .botoes a.btn-transparente {
+        border: 2px solid white;
+        color: white;
+        background: transparent;
+      }
+
+      .botoes a:hover {
+        opacity: 0.85;
+        box-shadow: 0 8px 25px rgba(0, 153, 255, 0.8);
+        transform: translateY(-2px);
+      }
+
+      .ancora {
+        margin-top: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px 20px 100px;
+      }
+
+      .ancora h2 {
+        font-size: 2.25rem;
+        margin-bottom: 30px;
+        color: #00aaff;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+      }
+
+      .modelos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+        max-width: 1200px;
+        width: 100%;
+      }
+
+      .modelo {
+        text-align: center;
+        flex: 1 1 300px;
+        max-width: 300px;
+      }
+
+      .modelo a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .modelo img {
+        height: 400px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        transition: transform 0.3s ease;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+      }
+
+      .modelo img:hover {
+        transform: scale(1.07);
+      }
+
+      .modelo p {
+        margin-top: 12px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #00aaff;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+        transition: color 0.3s ease;
+      }
+
+      .modelo p:hover {
+        color: #0099ff;
+      }
+      #acessibilidade-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #026ab0;
+        color: white;
+        font-weight: bold;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 9999;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.3s ease;
+      }
+
+      #acessibilidade-btn:hover {
+        background-color: #004c87;
+      }
+
+      /* Modo alto contraste */
+      .alto-contraste {
+        background: #000 !important;
+        color: #fff !important;
+      }
+
+      .alto-contraste header,
+      .alto-contraste nav,
+      .alto-contraste section,
+      .alto-contraste .hero,
+      .alto-contraste .modelo,
+      .alto-contraste .botoes a {
+        background-color: #000 !important;
+        color: #fff !important;
+        border-color: #fff !important;
+      }
+
+      .alto-contraste a {
+        color: #00ffff !important;
+      }
+
+      /* Fonte grande */
+      .fonte-grande {
+        font-size: 120% !important;
+      }
+
+      .fonte-grande h1 {
+        font-size: 3.5rem !important;
+      }
+
+      .fonte-grande h2 {
+        font-size: 2.5rem !important;
+      }
+
+      .fonte-grande p,
+      .fonte-grande a {
+        font-size: 1.25rem !important;
+      }
+
+      /* Responsividade simples */
+      @media (max-width: 768px) {
+        header {
+          padding: 10px 20px;
+        }
+
+        .hero h1 {
+          font-size: 2.25rem;
+        }
+
+        .ancora h2 {
+          font-size: 1.75rem;
+        }
+
+        .modelo {
+          max-width: 100%;
+          flex: 1 1 100%;
+        }
+
+        .modelo img {
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="logo" onclick="window.location.href='#'">
+        <img
+          src="/static/imagens_curriculo/logo.png"
+          alt="Logo Facilita Currículo"
+        />
+        <span>Facilita Currículo</span>
+      </div>
+      <nav>
+        <a href="#exemplos">Modelos</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </header>
+    <button
+      id="acessibilidade-btn"
+      aria-label="Ativar ou desativar modo de acessibilidade"
+    >
+      ♿ Acessibilidade
+    </button>
+    <!-- Seção principal -->
+    <section class="hero">
+      <h1>Crie seu Currículo Profissional</h1>
+      <p>
+        Destaque-se no mercado de trabalho com currículos profissionais e
+        personalizados.<br />
+        Escolha entre três modelos: simples, completo ou criativo.
+      </p>
+      <div class="botoes">
+        <a href="#exemplos" class="btn-transparente">
+          Ver Exemplos
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            width="20"
+            height="20"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Seção âncora com os modelos -->
+    <section id="exemplos" class="ancora">
+      <h2>Modelos de Currículo</h2>
+      <div class="modelos">
+        <div class="modelo">
+          <a href="/formulario">
+            <img
+              src="/static/imagens_curriculo/curriculo_simples.PNG"
+              alt="Modelo Simples"
+            />
+            <p>Simples</p>
+          </a>
+        </div>
+        <div class="modelo">
+          <a href="/formulario_criativo">
+            <img
+              src="/static/imagens_curriculo/curriculo_criativo.PNG"
+              alt="Modelo Criativo"
+            />
+            <p>Criativo</p>
+          </a>
+        </div>
+        <div class="modelo">
+          <a href="/formulario_completo">
+            <img
+              src="/static/imagens_curriculo/curruclo_completo.png"
+              alt="Modelo Completo"
+            />
+            <p>Completo</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção Contato exemplo (link no menu) -->
+    <section
+      id="contato"
+      class="ancora"
+      style="padding-bottom: 100px; text-align: center"
+    >
+      <h2>Contato</h2>
+      <p>
+        Dúvidas? Entre em contato pelo email:
+        <a href="mailto:contato@facilitacurriculo.com" style="color: #00aaff"
+          >contato@facilitacurriculo.com</a
+        >
+      </p>
+    </section>
+    <script>
+      const btn = document.getElementById("acessibilidade-btn");
+      let altoContrasteAtivo = false;
+      let fonteGrandeAtiva = false;
+
+      btn.addEventListener("click", () => {
+        altoContrasteAtivo = !altoContrasteAtivo;
+        fonteGrandeAtiva = !fonteGrandeAtiva;
+
+        document.body.classList.toggle("alto-contraste", altoContrasteAtivo);
+        document.body.classList.toggle("fonte-grande", fonteGrandeAtiva);
+      });
+    </script>
+  </body>
+</html>

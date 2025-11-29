@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Preenchimento Currículo Completo</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Inter", sans-serif;
+        background: #f3f6fa;
+        color: #1f2d5a;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        background: #fff;
+        border-radius: 16px;
+        max-width: 1200px;
+        width: 95%;
+        padding: 40px 50px 60px 50px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .intro {
+        grid-column: span 2;
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .intro h1 {
+        font-size: 2.4rem;
+        color: #0a2e68;
+        font-weight: 700;
+        margin: 0 0 10px;
+      }
+
+      .intro p {
+        font-size: 1.1rem;
+        color: #5c667b;
+        margin: 0;
+      }
+
+      .campo {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .campo span {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #0a2e68;
+        margin-bottom: 8px;
+      }
+
+      .campo input,
+      .campo textarea {
+        border: none;
+        border-bottom: 2px solid #cbd1dc;
+        background: transparent;
+        padding: 10px 8px;
+        font-size: 1rem;
+        color: #333;
+        font-family: "Inter", sans-serif;
+        transition: all 0.3s ease;
+        resize: vertical;
+        min-height: 45px;
+        border-radius: 8px 8px 0 0;
+        box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .campo textarea {
+        min-height: 85px;
+      }
+
+      .campo input::placeholder,
+      .campo textarea::placeholder {
+        color: #999;
+      }
+
+      .campo input:focus,
+      .campo textarea:focus {
+        outline: none;
+        border-bottom-color: #0a2e68;
+        background-color: #f8faff;
+        box-shadow: 0 0 6px rgba(10, 46, 104, 0.3);
+      }
+
+      .botoes {
+        grid-column: span 2;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 25px;
+      }
+
+      button {
+        background-color: #0a2e68;
+        color: white;
+        padding: 14px 32px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #083c9e;
+      }
+
+      #erro {
+        grid-column: span 2;
+        text-align: center;
+        color: red;
+        margin-top: 15px;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      /* === Botão e estilos acessibilidade === */
+      #acessibilidade-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #026ab0;
+        color: white;
+        font-weight: bold;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 9999;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.3s ease;
+      }
+
+      #acessibilidade-btn:hover {
+        background-color: #004c87;
+      }
+
+      /* Estilo modo alto contraste */
+      .alto-contraste {
+        background-color: #000 !important;
+        color: #00ffff !important; /* azul-ciano para o texto */
+      }
+
+      .alto-contraste .container {
+        background-color: #111 !important;
+      }
+
+      .alto-contraste input,
+      .alto-contraste textarea {
+        background-color: #000 !important;
+        color: #00ffff !important;
+        border-bottom: 2px solid #00ffff !important;
+      }
+
+      .alto-contraste input::placeholder,
+      .alto-contraste textarea::placeholder {
+        color: #00ffff !important;
+      }
+
+      .alto-contraste .intro h1,
+      .alto-contraste .campo span,
+      .alto-contraste p,
+      .alto-contraste #erro {
+        color: #00ffff !important;
+      }
+
+      .alto-contraste button {
+        background-color: #026ab0 !important;
+        color: white !important;
+        border: none !important;
+      }
+
+      .alto-contraste button:hover {
+        background-color: #004c87 !important;
+      }
+
+      /* Fonte maior para acessibilidade */
+      .fonte-grande {
+        font-size: 120% !important;
+      }
+
+      .fonte-grande h1 {
+        font-size: 2.8rem !important;
+      }
+
+      .fonte-grande span,
+      .fonte-grande p,
+      .fonte-grande input,
+      .fonte-grande textarea {
+        font-size: 1.3rem !important;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
+          padding: 30px 25px 40px 25px;
+          max-height: none;
+          overflow-y: visible;
+        }
+        .botoes {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      id="acessibilidade-btn"
+      aria-label="Ativar ou desativar modo acessibilidade"
+    >
+      ♿ Acessibilidade
+    </button>
+
+    <div class="container">
+      <div class="intro">
+        <h1>Vamos montar seu currículo completo ✍️</h1>
+        <p>Preencha todos os campos com atenção 😊</p>
+      </div>
+
+      <form
+        onsubmit="event.preventDefault(); salvarDadosCompleto();"
+        style="grid-column: span 2; display: contents"
+      >
+        <div class="campo">
+          <span>Nome (para o topo do currículo):</span>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            placeholder="Seu nome de destaque"
+          />
+        </div>
+        <div class="campo">
+          <span>E-mail:</span>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Digite seu e-mail"
+          />
+        </div>
+        <div class="campo">
+          <span>Telefone:</span>
+          <input
+            type="text"
+            id="telefone"
+            name="telefone"
+            placeholder="Ex: (34) 99999-9999"
+          />
+        </div>
+        <div class="campo">
+          <span>Nome completo:</span>
+          <input
+            type="text"
+            id="nome_completo"
+            name="nome_completo"
+            placeholder="Digite seu nome completo"
+          />
+        </div>
+        <div class="campo">
+          <span>Data de Nascimento:</span>
+          <input
+            type="text"
+            id="data_nasc"
+            name="data_nasc"
+            placeholder="dd/mm/aaaa"
+          />
+        </div>
+        <div class="campo">
+          <span>Naturalidade:</span>
+          <input
+            type="text"
+            id="naturalidade"
+            name="naturalidade"
+            placeholder="Digite sua naturalidade"
+          />
+        </div>
+        <div class="campo">
+          <span>Disponibilidade:</span>
+          <input
+            type="text"
+            id="disp"
+            name="disp"
+            placeholder="Informe sua disponibilidade"
+          />
+        </div>
+        <div class="campo">
+          <span>Resumo profissional:</span>
+          <textarea
+            id="resumo"
+            name="resumo"
+            rows="3"
+            placeholder="Fale um pouco sobre sua trajetória"
+          ></textarea>
+        </div>
+        <div class="campo">
+          <span>Formação acadêmica:</span>
+          <textarea
+            id="formacao"
+            name="formacao"
+            rows="3"
+            placeholder="Ex: Ensino Médio, Técnico, Superior..."
+          ></textarea>
+        </div>
+        <div class="campo">
+          <span>Experiência profissional:</span>
+          <textarea
+            id="experiencia"
+            name="experiencia"
+            rows="3"
+            placeholder="Suas experiências anteriores"
+          ></textarea>
+        </div>
+        <div class="campo">
+          <span>Habilidades:</span>
+          <textarea
+            id="habilidades"
+            name="habilidades"
+            rows="3"
+            placeholder="Ex: Python, trabalho em equipe, comunicação..."
+          ></textarea>
+        </div>
+        <div class="campo">
+          <span>Idiomas (opcional):</span>
+          <textarea
+            id="idiomas"
+            name="idiomas"
+            rows="2"
+            placeholder="Ex: Inglês intermediário, Espanhol básico..."
+          ></textarea>
+        </div>
+        <div class="campo">
+          <span>LinkedIn (opcional):</span>
+          <input
+            type="text"
+            id="linkedin"
+            name="linkedin"
+            placeholder="https://www.linkedin.com/in/seunome"
+          />
+        </div>
+        <div class="campo">
+          <span>Portfólio (opcional):</span>
+          <input
+            type="text"
+            id="portfolio"
+            name="portfolio"
+            placeholder="https://seuportfolio.com"
+          />
+        </div>
+        <div class="botoes">
+          <button type="submit">Gerar currículo</button>
+        </div>
+        <div id="erro"></div>
+      </form>
+    </div>
+
+    <script>
+      // Alterna modo acessibilidade
+      const btnAcessibilidade = document.getElementById("acessibilidade-btn");
+      btnAcessibilidade.addEventListener("click", () => {
+        document.body.classList.toggle("alto-contraste");
+        document.body.classList.toggle("fonte-grande");
+      });
+
+      function salvarDadosCompleto() {
+        const camposObrigatorios = [
+          "nome",
+          "email",
+          "telefone",
+          "nome_completo",
+          "data_nasc",
+          "naturalidade",
+          "disp",
+          "resumo",
+          "formacao",
+          "experiencia",
+          "habilidades",
+        ];
+
+        const dados = {};
+        let todosPreenchidos = true;
+
+        camposObrigatorios.forEach((campo) => {
+          const valor = document.getElementById(campo).value.trim();
+          if (!valor) todosPreenchidos = false;
+          dados[campo] = valor;
+        });
+
+        dados.idiomas = document.getElementById("idiomas").value.trim();
+        dados.linkedin = document.getElementById("linkedin").value.trim();
+        dados.portfolio = document.getElementById("portfolio").value.trim();
+
+        const mensagemErro = document.getElementById("erro");
+        if (!todosPreenchidos) {
+          mensagemErro.textContent =
+            "⚠️ Por favor, preencha todos os campos obrigatórios antes de continuar.";
+          return;
+        }
+
+        mensagemErro.textContent = "";
+
+        fetch("/gerar_curriculo_completo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados),
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error("Erro na resposta do servidor");
+            return response.text();
+          })
+          .then((htmlContent) => {
+            const newWindow = window.open("", "_blank");
+            newWindow.document.write(htmlContent);
+            newWindow.document.close();
+            newWindow.focus();
+          })
+          .catch((error) => {
+            console.error("Erro ao gerar currículo:", error);
+            alert("Ocorreu um erro ao gerar o currículo. Veja o console.");
+          });
+      }
+    </script>
+  </body>
+</html>
