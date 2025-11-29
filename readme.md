@@ -32,10 +32,11 @@ Facilita Currículo é uma aplicação web que permite a criação de currículo
 ## Como executar
 
 1. Clone o repositório.
-2. Instale as dependências do backend (por exemplo, via `pip install -r requirements.txt`).
-3. Execute o servidor backend.
-4. Abra o formulário no navegador.
-5. Preencha os dados, escolha o modelo e utilize os recursos de acessibilidade conforme desejar.
+2. Antes de executar, digite no terminal os comandos: pip install flask, python app.py
+3. Após os comando, no terminal aparecerá: http://127.0.0.1:5000
+4. Execute no navegador
+5. Abra o formulário no navegador.
+6. Preencha os dados, escolha o modelo e utilize os recursos de acessibilidade conforme desejar.
 
 ## Próximos passos
 
